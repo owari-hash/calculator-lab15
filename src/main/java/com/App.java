@@ -4,11 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.ConfigurationSource;
-import org.apache.logging.log4j.core.config.Configurator;
-
 enum OpType {
     Add,
     Sub,
@@ -30,40 +25,7 @@ public class App {
     public static void main(String[] args) {
         try {
             if (args != null && args.length > 0) {
-                if (args.length > 1) {
-                    String logConfigPath = null;
-                    if (args[1].equalsIgnoreCase("warn"))
-                        logConfigPath = "log4j-warn.xml";
-                    else if (args[1].equalsIgnoreCase("debug"))
-                        logConfigPath = "log4j-debug.xml";
-                    else if (args[1].equalsIgnoreCase("info"))
-                        logConfigPath = "log4j-info.xml";
-                    else
-                        logConfigPath = "log4j-debug.xml";
 
-                    try {
-                        String configPath = "src/main/resources/" + logConfigPath;
-                        File file = new File(configPath);
-                        if (file.exists()) {
-                            ConfigurationSource source = new ConfigurationSource(
-                                    java.nio.file.Files.newInputStream(file.toPath()));
-                            Configurator.initialize(null, source);
-                        }
-                    } catch (Exception e) {
-                        System.err.println("Error loading log4j2 configuration: " + e.getMessage());
-                    }
-                } else {
-                    try {
-                        String configPath = "src/main/resources/log4j-debug.xml";
-                        File file = new File(configPath);
-                        if (file.exists()) {
-                            ConfigurationSource source = new ConfigurationSource(
-                                    java.nio.file.Files.newInputStream(file.toPath()));
-                            Configurator.initialize(null, source);
-                        }
-                    } catch (Exception e) {
-                        System.err.println("Error loading log4j2 configuration: " + e.getMessage());
-                    }
                 }
                 String exp = args[0];
                 App c = new App();
