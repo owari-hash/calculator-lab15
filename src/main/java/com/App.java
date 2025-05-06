@@ -3,11 +3,6 @@ package com;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.ConfigurationSource;
-import org.apache.logging.log4j.core.config.Configurator;
-import java.io.InputStream;
 
 enum OpType {
     Add,
@@ -30,29 +25,7 @@ public class App {
     public static void main(String[] args) {
         try {
             if (args != null && args.length > 0) {
-                String logConfigFileName = "log4j2-debug.xml";
-                if (args.length > 1) {
-                    if (args[1].equalsIgnoreCase("warn"))
-                        logConfigFileName = "log4j2-warn.xml";
-                    else if (args[1].equalsIgnoreCase("debug"))
-                        logConfigFileName = "log4j2-debug.xml";
-                    else if (args[1].equalsIgnoreCase("info"))
-                        logConfigFileName = "log4j2-info.xml";
-                }
 
-                try (InputStream inputStream = App.class.getClassLoader().getResourceAsStream(logConfigFileName)) {
-                    if (inputStream != null) {
-                        ConfigurationSource source = new ConfigurationSource(inputStream);
-                        Configurator.initialize(null, source);
-                        logger.info("Log4j 2 configuration loaded from: " + logConfigFileName);
-                    } else {
-                        System.err.println("Log4j 2 configuration file not found: " + logConfigFileName
-                                + ". Using default Log4j 2 configuration.");
-                    }
-                } catch (Exception e) {
-                    System.err.println(
-                            "Error loading Log4j 2 configuration from " + logConfigFileName + ": " + e.getMessage());
-                    e.printStackTrace();
                 }
                 String exp = args[0];
                 App c = new App();
