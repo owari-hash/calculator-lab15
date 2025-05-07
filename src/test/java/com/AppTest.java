@@ -1,6 +1,8 @@
 package com;
 
-import org.junit.jupiter.api.Test;
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**

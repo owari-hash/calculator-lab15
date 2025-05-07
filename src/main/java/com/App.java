@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.ConfigurationSource;
+import org.apache.logging.log4j.core.config.Configurator;
+
 enum OpType {
     Add,
     Sub,
@@ -20,22 +25,46 @@ class TypeAndExpressions {
 
 public class App {
 
-    final static Logger logger = Logger.getLogger(App.class);
+    final static Logger logger = LogManager.getLogger(App.class);
 
     public static void main(String[] args) {
         try {
             if (args != null && args.length > 0) {
                 if (args.length > 1) {
+                    String logConfigPath = null;
                     if (args[1].equalsIgnoreCase("warn"))
-                        PropertyConfigurator.configure(Loader.getResource("log4j-warn.properties"));
+                        logConfigPath = "log4j-warn.xml";
                     else if (args[1].equalsIgnoreCase("debug"))
-                        PropertyConfigurator.configure(Loader.getResource("log4j-debug.properties"));
+                        logConfigPath = "log4j-debug.xml";
                     else if (args[1].equalsIgnoreCase("info"))
-                        PropertyConfigurator.configure(Loader.getResource("log4j-info.properties"));
+                        logConfigPath = "log4j-info.xml";
                     else
-                        PropertyConfigurator.configure(Loader.getResource("log4j-debug.properties"));
-                } else
-                    PropertyConfigurator.configure(Loader.getResource("log4j-debug.properties"));
+                        logConfigPath = "log4j-debug.xml";
+
+                    try {
+                        String configPath = "src/main/resources/" + logConfigPath;
+                        File file = new File(configPath);
+                        if (file.exists()) {
+                            ConfigurationSource source = new ConfigurationSource(
+                                    java.nio.file.Files.newInputStream(file.toPath()));
+                            Configurator.initialize(null, source);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error loading log4j2 configuration: " + e.getMessage());
+                    }
+                } else {
+                    try {
+                        String configPath = "src/main/resources/log4j-debug.xml";
+                        File file = new File(configPath);
+                        if (file.exists()) {
+                            ConfigurationSource source = new ConfigurationSource(
+                                    java.nio.file.Files.newInputStream(file.toPath()));
+                            Configurator.initialize(null, source);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error loading log4j2 configuration: " + e.getMessage());
+                    }
+                }
                 String exp = args[0];
                 App c = new App();
                 System.out.println("Result: " + c.calculate(exp.trim(), null));
