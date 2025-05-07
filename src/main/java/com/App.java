@@ -2,10 +2,7 @@ package com;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
+import java.io.File;
 
 enum OpType {
     Add,
@@ -163,7 +160,7 @@ public class App {
 
     // This is getting three arguments of operator let
     private String[] getThreeSubexpression(String exp) {
-        logger.info("test test method begin");
+        logger.info("getThreeSubexpression method begin");
         int noOfOpenparan = 0;
         int firstCommaIndex = 0, secondCommaIndex = 0;
         String[] expressions = new String[3];
